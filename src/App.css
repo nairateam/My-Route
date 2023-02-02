@@ -1,38 +1,169 @@
-.App {
-  text-align: center;
-}
+/* header */
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+header{
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  padding: 1.5rem 5%;
+  border-bottom: 1px solid rgb(230, 228, 228);
 }
 
-.App-link {
-  color: #61dafb;
+header > img{
+  max-width: 150px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+header > .socials > button{
+  padding: 0.8rem 1.8rem;
+  color: #FFF;
+  font-weight: 500;
+  background: var(--pry);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Hero */
+
+.flex_container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3rem 5%;
+  gap: 4rem;
+}
+
+.flex_item:nth-child(1) {
+  flex: 45;
+}
+
+.flex_item > h2{
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 4rem;
+}
+.flex_item > h2 > span{
+  color: var(--sec);
+}
+.flex_item > p{
+  color: #4F4F4F;
+  font-size: 1.1rem;
+  line-height: 1.5rem;
+  padding: 1rem 0;
+}
+
+.flex_item > img{
+  max-width: 500px;
+}
+
+@media (max-width: 1170px) {
+
+  .flex_item > h2{
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 4rem;
+    width: 100%;
   }
-  to {
-    transform: rotate(360deg);
+  .flex_item > img{
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 960px) {
+  .flex_container{
+    padding: 4rem 5%;
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+  }
+  .flex_item > h2{
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 650px) {
+  .flex_item > h2{
+    font-size: 2.3rem;
+    line-height: 2.8rem;
+  }
+  .flex_item > p{
+    font-size: 0.9rem;
+  }
+}
+
+/* Form */
+
+.form_container{
+  padding: 0.5rem 0;
+}
+.form_control{
+  padding-top: 0.2rem;
+}
+.form_control > input{
+  font-size: 1rem;
+  font-weight: 500;
+  background: #f4f5f6;
+  padding: 1.2rem 1rem .8rem;
+  width: 100%;
+  border: 2px solid transparent;
+  color: #4F4F4F;
+  border-radius: 8px;
+  background-clip: padding-box!important;
+}
+.form_control > input:focus{
+  background: rgba(5, 108, 12, 0.13);
+  border-color: var(--sec) !important;
+}
+.form_control > input::-webkit-input-placeholder{
+  position: relative;
+  left: 0rem;
+  bottom: 0.3rem;
+  -webkit-transition: padding 0.5s;
+  transition: padding 0.5s;
+}
+.form_control > input:focus::-webkit-input-placeholder{
+  position: relative;
+  left: 0;
+  bottom: 1.2rem;
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: #000;
+}
+
+form > button{
+  background: #000;
+  color: #FFF;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 1rem 1rem 1rem;
+  margin-top: 0.2rem;
+  width: 100%;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background-clip: padding-box!important;
+  cursor: pointer;
+}
+
+/* Footer */
+
+.footer{
+  padding: 2rem 5%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.social_icons{
+  display: flex;
+  align-items: center;
+}
+.social_icons > a > img{
+  width: 30px;
+}
+
+@media (max-width: 600px) {
+  .footer{
+    padding: 1rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
   }
 }
