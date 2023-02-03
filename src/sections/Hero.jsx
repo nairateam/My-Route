@@ -1,43 +1,47 @@
 import React, { useState } from 'react'
 import banner from '../assets/images/mybanner.png'
+import axios from 'axios';
+
 
 const Hero = () => {
-const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [message, setMessage] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      const response = await fetch("https://us3.api.mailchimp.com/3.0/lists/5968090d71/members", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "apikey 29ea16558655fe049d0cdc1b38279f60-us3"
+      const response = await axios.post('https://api.sendgrid.com/v3/mail/send', {
+        personalizations: [
+          {
+            to: [
+              {
+                email: 'onabulefemi@gmail.com',
+              },
+            ],
+            subject: 'Waitlist Signup',
+          },
+        ],
+        from: {
+          email: 'waitlist@example.com',
         },
-        body: JSON.stringify({
-          email_address: email,
-          status: "pending",
-          merge_fields: {
-            PHONE: phone
-          }
-        })
+        content: [
+          {
+            type: 'text/plain',
+            value: `Email: ${email}\nPhone: ${phone}`,
+          },
+        ],
+      }, {
+        headers: {
+          Authorization: 'Bearer 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',
+        },
       });
-      const data = await response.json();
-      if (data.status === 400) {
-        throw new Error(data.detail);
-      }
-      setSuccess(true);
+      setMessage('Successfully added to the waitlist');
     } catch (error) {
-      setError(error.message);
-    } finally {
-      setSubmitting(false);
+      setMessage('Failed to add to the waitlist');
     }
   };
+
 
   return (
     <div>
@@ -53,20 +57,19 @@ const [email, setEmail] = useState("");
                 </p>
                 <div className="form_container">
                     <form action="" onSubmit={handleSubmit}>
-                        {success && <p>Thank you for joining the waitlist!</p>}
-                        {error && <p>Error: {error}</p>}
                         <div className="form_control">
                             <input type="email" value={email} onChange={e => setEmail(e.target.value)}
-                            disabled={submitting} name="MERGE0" id="MERGE0" placeholder='Enter Your E-mail' />
+                            name="MERGE0" id="MERGE0" placeholder='Enter Your E-mail' />
                         </div>
                         <div className="form_control">
                             <input type="tel" value={phone} 
                             onChange={e => setPhone(e.target.value)}
-                            disabled={submitting} name="MERGE4" id="MERGE4" placeholder='Your Phone Number' />
+                            name="MERGE4" id="MERGE4" placeholder='Your Phone Number' />
                         </div>
-                        <button type='submit' disabled={submitting}>
+                        <button type='submit'>
                             Join Our Wait-list
                         </button>
+                        {message && <p>{message}</p>}
                     </form>
                 </div>
             </div>
