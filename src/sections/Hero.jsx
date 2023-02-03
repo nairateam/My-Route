@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import banner from '../assets/images/mybanner.png'
-import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Hero = () => {
@@ -8,39 +9,54 @@ const Hero = () => {
     const [phone, setPhone] = useState('');
     const [message, setMessage] = useState('');
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await axios.post('https://api.sendgrid.com/v3/mail/send', {
-        personalizations: [
-          {
-            to: [
-              {
-                email: 'onabulefemi@gmail.com',
-              },
-            ],
-            subject: 'Waitlist Signup',
-          },
-        ],
-        from: {
-          email: 'waitlist@example.com',
-        },
-        content: [
-          {
-            type: 'text/plain',
-            value: `Email: ${email}\nPhone: ${phone}`,
-          },
-        ],
-      }, {
-        headers: {
-          Authorization: 'Bearer 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',
-        },
+    const postData = async (email, phone, message) => {
+        await fetch('https://myroute-eac81-default-rtdb.firebaseio.com/myroute.json', {
+            method: 'POST',
+            body: JSON.stringify({
+                email: email,
+                phone: phone,
+
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+             },
+        })
+        .then((response) => response.json())
+        .then(() => {
+         setEmail('');
+         setPhone('');
+         setMessage(toast.success('Thank You For Joining Our Wait-list!', {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            }));
+      })
+      .catch((err) => {
+         console.log(err.message);
+         setMessage(err.message);   
       });
-      setMessage('Successfully added to the waitlist');
-    } catch (error) {
-      setMessage('Failed to add to the waitlist');
-    }
-  };
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        postData(email, phone, message);
+        console.log(email, phone, message)
+     };
+  
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     console.log({
+    //       email,
+    //       phone,
+    //     });
+    //     setEmail("");
+    //     setPhone("");
+    //   };
 
 
   return (
@@ -69,7 +85,19 @@ const Hero = () => {
                         <button type='submit'>
                             Join Our Wait-list
                         </button>
-                        {message && <p>{message}</p>}
+                        <ToastContainer
+                            position="top-right"
+                            autoClose={2000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="light"
+                            />
+                        {/* {message && <p>{message}</p>} */}
                     </form>
                 </div>
             </div>
