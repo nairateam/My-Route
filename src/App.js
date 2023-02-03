@@ -1,4 +1,4 @@
-
+// eslint-disable-next-line
 import './App.css';
 import Footer from './sections/Footer';
 import Header from './sections/Header';
