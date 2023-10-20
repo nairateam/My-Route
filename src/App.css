@@ -96,6 +96,7 @@ header > .socials > button{
 }
 .form_control{
   padding-top: 0.2rem;
+  margin: .2rem 0;
 }
 .form_control > input{
   font-size: 1rem;
