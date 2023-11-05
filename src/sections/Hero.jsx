@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Form = ({ onFormSubmit, setError }) => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [submitting, setSubmitting] = useState(false)
 
   const isEmailValid = (email) => {
     // Implement email validation logic here
@@ -32,8 +33,22 @@ const Form = ({ onFormSubmit, setError }) => {
       toast.warn('Invalid phone number');
       return;
     }
+    setSubmitting(true)
 
-    onFormSubmit(email, phone);
+    try {
+      await onFormSubmit(email, phone);
+      // Clear the input fields after successful submission
+      setEmail('');
+      setPhone('');
+    } catch (error) {
+      console.error(error);
+      setError('An error occurred while submitting the form.');
+      toast.error('An error occurred while submitting the form.');
+    } finally {
+      // Reset the submission state to false, whether the submission succeeds or fails
+      setSubmitting(false);
+    }
+
   };
 
   return (
@@ -58,7 +73,7 @@ const Form = ({ onFormSubmit, setError }) => {
           placeholder="Your Phone Number"
         />
       </div>
-      <button type="submit">Join Our Wait-list</button>
+      <button type="submit">{ submitting ? 'Submitting...' : 'Join Our Wait-list'}</button>
     </form>
   );
 };
@@ -80,6 +95,7 @@ const Hero = () => {
       } else {
         const data = response.data;
         setMessage(data.message);
+        toast(data.message)
       }
     } catch (error) {
       console.error(error);
