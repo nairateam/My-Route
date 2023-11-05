@@ -80,7 +80,7 @@ const Form = ({ onFormSubmit, setError }) => {
 
 const Hero = () => {
   const [message, setMessage] = useState('');
-  const apiURL = process.env.REACT_APP_API_URL;
+  const apiURL = 'https://myroute-aqn5.onrender.com/api/waitlist/waiting-user';
 
   const postData = async (email, phone) => {
     try {
